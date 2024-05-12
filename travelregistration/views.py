@@ -31,7 +31,7 @@ class LocationEntryViewSet(viewsets.ModelViewSet):
 
 @login_required
 def homepage(request):
-    all_locations = Location.objects.all()
+    all_locations = Location.objects.all().order_by('display_y')
     locations_entries = LocationEntry.objects.filter(user=request.user)
     context = {
         "locations": [{
