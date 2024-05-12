@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-12 16:13+0000\n"
+"POT-Creation-Date: 2024-05-12 16:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
 #: templates/account/base_entrance.html:137
 #: templates/travelregistration/homepage.html:249
 msgid "Select"
@@ -53,7 +52,7 @@ msgstr "メール管理"
 
 #: templates/travelregistration/homepage.html:255
 msgid "Account Password"
-msgstr "パスワード更新"
+msgstr "パスワード管理"
 
 #: templates/update.html:67
 msgid "Update Location"
@@ -61,7 +60,7 @@ msgstr "地域更新"
 
 #: templates/update.html:74
 msgid "none"
-msgstr "無し"
+msgstr "なし"
 
 #: templates/update.html:79 travelregistration/models.py:44
 msgid "Lived"
@@ -81,4 +80,4 @@ msgstr "通過"
 
 #: travelregistration/models.py:43
 msgid "None"
-msgstr "無し"
+msgstr "なし"
