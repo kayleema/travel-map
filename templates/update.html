@@ -1,0 +1,95 @@
+{% load i18n %}
+{% load l10n %}
+
+<style>
+    body {
+        font-family: Georgia, sans-serif;
+    }
+
+    body {
+        text-align: center;
+        background: #9a9494;
+    }
+
+    .formcontainer {
+        border: 2px solid #000;
+        border-radius: 10px;
+        padding: 40px;
+        display: inline-block;
+        background: #dcd8d8;
+        box-shadow: 0 5px 0px #000;
+    }
+
+    input, select, label {
+        font-size: 18px;
+        margin: 0 5px;
+        padding: 5px;
+    }
+
+    input[type=submit] {
+        color: white;
+        border-radius: 10px;
+        border: none;
+        padding: 5px;
+        width: 170px;
+        cursor: pointer;
+    }
+
+    label {
+        font-style: italic;
+    }
+
+
+    .location {
+        background: #eee;
+    }
+
+    .lived {
+        background: #d41;
+    }
+
+    .stayed {
+        background: #3a4;
+    }
+
+    .walked {
+        background: #28f;
+    }
+
+    .passed {
+        background: #2aa;
+    }
+</style>
+
+<div class="formcontainer">
+    <h1>
+        {% translate "Update Location" %}：{% get_current_language as LANGUAGE_CODE %}
+        {% if LANGUAGE_CODE == 'ja' %}{{ location }}{% endif %}
+        {% if LANGUAGE_CODE == 'en' %}{{ location.name_en | title }}{% endif %}
+    </h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="none"/>
+        <input type="submit" value="{% translate "none" %}" class="none"/>
+    </form>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="lived"/>
+        <input type="submit" value="{% translate "Lived" %}" class="lived"/>
+    </form>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="stayed"/>
+        <input type="submit" value="{% translate "Stayed" %}" class="stayed"/>
+    </form>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="walked"/>
+        <input type="submit" value="{% translate "Walked" %}" class="walked"/>
+    </form>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="passed through"/>
+        <input type="submit" value="{% translate "Passed Through" %}" class="passed"/>
+    </form>
+</div>

@@ -1,0 +1,108 @@
+{% extends "allauth/layouts/entrance.html" %}
+{% load i18n %}
+
+{% block extra_head %}
+    {{ block.super }}
+
+    <style>
+
+        body {
+            font-family: Georgia, sans-serif;
+            text-align: center;
+            background: #9a9494;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        body > div {
+            display: none;
+        }
+
+        body > p, form, h1 {
+            border: 1px solid #000;
+            background: #dcd8d8;
+            padding: 20px;
+            width: 620px;
+            box-sizing: border-box;
+            margin: 0;
+            margin-bottom: -1px;
+        }
+
+        body > p {
+            border-radius: 0 0 10px 10px;
+        }
+
+        form {
+            border: 1px solid #000;
+            border-radius: 10px;
+            padding: 40px;
+            display: inline-block;
+            background: #dcd8d8;
+            box-shadow: 0 5px 0px #000;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        input, select, label {
+            font-size: 18px;
+            margin: 0 5px;
+            padding: 5px;
+        }
+
+        button[type=submit] {
+            background: #14398a;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            padding: 5px 60px;
+            font-size: 20px;
+        }
+
+        button[type=submit]:hover {
+            background: #0044dd;
+        }
+
+
+        input {
+            border: 1px solid black;
+            border-radius: 4px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form.language {
+            box-shadow: none;
+            padding: 20px;
+            margin-bottom: 0;
+        }
+        form.language input[type=submit]:hover {
+            background: #ddd;
+        }
+    </style>
+{% endblock extra_head %}
+
+
+{% block extra_body %}
+    <form class=language action="{% url 'set_language' %}" method="post">{% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}">
+        <select name="language">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+            {% for language in languages %}
+                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }} ({{ language.code }})
+                </option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="{% translate "Select" %}">
+    </form>
+{% endblock %}

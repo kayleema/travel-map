@@ -1,0 +1,251 @@
+{% load i18n %}
+<style>
+    body {
+        font-family: Georgia, serif;
+        background: #9a9494;
+    }
+
+    h1 {
+        font-weight: normal;
+        font-size: 36px;
+        color: #444;
+        margin-top: 0;
+    }
+
+    nav.card, footer.card {
+        padding: 10px;
+        padding-left: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    footer.card {
+
+    }
+
+    nav.card {
+        background: #222;
+        color: white;
+    }
+
+    form {
+        margin: 0;
+    }
+
+    .location a {
+        color: white;
+        text-decoration: none;
+        width: 100%;
+        height: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .location a:hover {
+        background: #fff;
+        text-decoration: none;
+    }
+
+    div.location {
+        border: 1px solid black;
+        margin: 0 0 -1px -1px;
+        display: flex;
+        overflow: clip;
+    }
+
+    .mapcontainer {
+        display: block;
+    }
+
+    .legend {
+        position: absolute;
+        background: #fff8;
+        border: 1.5px dashed #0008;
+        border-radius: 10px;
+        padding: 20px 15px;
+    }
+
+    span.location {
+        color: white;
+        padding: 5px 8px;
+        margin-right: 5px;
+        border-radius: 10px;
+    }
+
+    .card {
+        background: #dcd8d8;
+        padding: 50px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        overflow: auto;
+    }
+
+    .map {
+        display: grid;
+        grid-template-columns: repeat({{ max_x }}, minmax(40px, 1fr));
+        grid-template-rows: repeat({{ max_y }}, 1fr);
+        width: 100%;
+    }
+
+    .location {
+        background: #eee;
+        word-wrap: anywhere;
+    }
+
+    .lived {
+        background: #d41;
+    }
+
+    .stayed {
+        background: #3a4;
+    }
+
+    .walked {
+        background: #28f;
+    }
+
+    .passed {
+        background: #2aa;
+    }
+
+    .location a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        box-sizing: border-box;
+        color: black;
+        line-height: 1.1;
+        border-ra
+    }
+
+    .lived a, .stayed a, .walked a, .passed a {
+        color: white;
+    }
+
+    .lived a:hover, .stayed a:hover, .walked a:hover, .passed a:hover {
+        background: #fff3;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    input, select, button {
+        font-size: 1em;
+    }
+
+    button, input[type=submit], select {
+        background: #444;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        line-height: 1;
+        height: 20px;
+        box-sizing: content-box;
+    }
+
+    select {
+        margin-right: 10px;
+    }
+
+    button:hover, input[type=submit]:hover, select:hover {
+        background: #555;
+    }
+</style>
+
+<nav class="card">
+    <strong><em>travelcat.kaylee.jp</em></strong>
+
+    <form action="{% url 'account_logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">{% translate "Log Out" %}</button>
+    </form>
+</nav>
+
+<div class="card">
+    <h1>{% translate "Travel Map" %}</h1>
+    <div class="mapcontainer">
+        <div class="legend">
+            <span class="lived location">{% translate "lived in" %}</span>
+            <span class="stayed location">{% translate "stayed overnight" %}</span>
+            <span class="walked location">{% translate "walked in" %}</span>
+            <span class="passed location">{% translate "passed through" %}</span>
+        </div>
+        <div class="map">
+            {% for location in locations %}
+                <div
+                        style="
+                                grid-column: {{ location.location.display_x }};
+                                grid-row: {{ location.location.display_y }};
+                                grid-column-end: {{ location.location.get_display_x_end }};
+                                grid-row-end: {{ location.location.get_display_y_end }};
+                                {% if location.location.border_radius_top_left %}
+                                    border-top-left-radius: 15px;
+                                {% endif %}
+                                {% if location.location.border_radius_bottom_left %}
+                                    border-bottom-left-radius: 15px;
+                                {% endif %}
+                                {% if location.location.border_radius_top_right %}
+                                    border-top-right-radius: 15px;
+                                {% endif %}
+                                {% if location.location.border_radius_bottom_right %}
+                                    border-bottom-right-radius: 15px;
+                                {% endif %}
+                                "
+                        class="{{ location.status }} location"
+                >
+                    <a href="/update/{{ location.location.name }}">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% if LANGUAGE_CODE == 'ja' %}{{ location.location.name }}{% endif %}
+                        {% if LANGUAGE_CODE == 'en' %}{{ location.location.name_en | title }}{% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="card" style="display: none;">
+    <h2>Details:</h2>
+    <ul>
+        {% for location in locations %}
+            <li>
+                <a href="/update/{{ location.location.name }}">
+                    {{ location.location }} {{ location.status }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+<footer class="card">
+    <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}">
+        <select name="language">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+            {% for language in languages %}
+                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }} ({{ language.code }})
+                </option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="{% translate "Select" %}">
+    </form>
+
+    <div>
+        <a href="{% url 'account_email' %}">{% translate "Account Email" %}</a>
+        ・
+        <a href="{% url 'account_change_password' %}">{% translate "Account Password" %}</a>
+    </div>
+
+</footer>
