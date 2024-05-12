@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-12 14:32+0000\n"
+"POT-Creation-Date: 2024-05-12 16:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,64 +17,65 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-#: templates/account/base_entrance.html:106
-#: templates/travelregistration/homepage.html:242
+
+#: templates/account/base_entrance.html:137
+#: templates/travelregistration/homepage.html:249
 msgid "Select"
 msgstr "選択"
 
-#: templates/travelregistration/homepage.html:168
+#: templates/travelregistration/homepage.html:175
 msgid "Log Out"
 msgstr "ログアウト"
 
-#: templates/travelregistration/homepage.html:173
+#: templates/travelregistration/homepage.html:180
 msgid "Travel Map"
 msgstr "旅した都道府県の地図"
 
-#: templates/travelregistration/homepage.html:176
+#: templates/travelregistration/homepage.html:183
 msgid "lived in"
 msgstr "在住"
 
-#: templates/travelregistration/homepage.html:177
+#: templates/travelregistration/homepage.html:184
 msgid "stayed overnight"
 msgstr "宿泊"
 
-#: templates/travelregistration/homepage.html:178
+#: templates/travelregistration/homepage.html:185
 msgid "walked in"
 msgstr "散歩"
 
-#: templates/travelregistration/homepage.html:179
+#: templates/travelregistration/homepage.html:186
 msgid "passed through"
 msgstr "通過"
 
-#: templates/travelregistration/homepage.html:246
+#: templates/travelregistration/homepage.html:253
 msgid "Account Email"
 msgstr "メール管理"
 
-#: templates/travelregistration/homepage.html:248
+#: templates/travelregistration/homepage.html:255
 msgid "Account Password"
 msgstr "パスワード更新"
 
-#: templates/update.html:67 templates/update.html:81
+#: templates/update.html:67
 msgid "Update Location"
 msgstr "地域更新"
 
-#: templates/update.html:88
+#: templates/update.html:74
 msgid "none"
 msgstr "無し"
 
-#: templates/update.html:93 travelregistration/models.py:44
+#: templates/update.html:79 travelregistration/models.py:44
 msgid "Lived"
 msgstr "在住"
 
-#: templates/update.html:98 travelregistration/models.py:45
+#: templates/update.html:84 travelregistration/models.py:45
 msgid "Stayed"
 msgstr "宿泊"
 
-#: templates/update.html:103 travelregistration/models.py:46
+#: templates/update.html:89 travelregistration/models.py:46
 msgid "Walked"
 msgstr "散歩"
 
-#: templates/update.html:108 travelregistration/models.py:47
+#: templates/update.html:94 travelregistration/models.py:47
 msgid "Passed Through"
 msgstr "通過"
 
