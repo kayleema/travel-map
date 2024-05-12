@@ -32,6 +32,13 @@ ALLOWED_HOSTS = [
     "tabicat.kaylee.jp",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost",
+    "https://risu.kaylee.jp",
+    "https://travelcat.kaylee.jp",
+    "https://tabicat.kaylee.jp",
+]
+
 
 # Application definition
 
