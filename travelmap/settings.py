@@ -29,6 +29,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "risu.kaylee.jp",
     "travelcat.kaylee.jp"
+    "tabicat.kaylee.jp",
 ]
 
 
