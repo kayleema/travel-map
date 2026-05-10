@@ -1,3 +1,5 @@
+name: tabicat
+
 services:
   db:
     image: postgres:16-alpine
@@ -7,7 +9,7 @@ services:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASS}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - tabicat_postgres_data:/var/lib/postgresql/data
 
   web:
     build: .
@@ -24,4 +26,4 @@ services:
       - db
 
 volumes:
-  postgres_data:
+  tabicat_postgres_data:
