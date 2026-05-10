@@ -27,8 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost",
-    "risu.kaylee.jp",
-    "travelcat.kaylee.jp",
+    "127.0.0.1",
     "tabicat.kaylee.jp",
 ]
 
