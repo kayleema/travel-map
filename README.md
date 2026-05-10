@@ -88,10 +88,19 @@ python3 -c "import secrets; print(secrets.token_urlsafe(16))"
 
 Avoid passwords with special shell characters (`$`, `!`, `"`) as they can cause issues in `.env` files.
 
-Then start the app:
+**On your local machine,** build and push the image to Docker Hub:
 
 ```bash
-docker-compose up -d --build
+docker login
+docker-compose build
+docker-compose push
+```
+
+**On the server,** pull and start:
+
+```bash
+docker-compose pull
+docker-compose up -d
 ```
 
 Create your admin account (one time only):
@@ -104,9 +113,18 @@ The app is now running on port 8000. Point your reverse proxy (nginx, Caddy, etc
 
 ### Updates
 
+On your local machine, rebuild and push:
+
 ```bash
-git pull
-docker-compose up -d --build
+docker-compose build
+docker-compose push
+```
+
+On the server:
+
+```bash
+docker-compose pull
+docker-compose up -d
 ```
 
 Migrations run automatically on startup.
@@ -121,7 +139,7 @@ tabicat.kaylee.jp {
 }
 ```
 
-For nginx:
+For nginx, create a config file at `/etc/nginx/sites-available/tabicat`:
 
 ```nginx
 server {
@@ -135,4 +153,12 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+```
+
+Then enable it and reload:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/tabicat /etc/nginx/sites-enabled/tabicat
+sudo nginx -t          # check for syntax errors
+sudo systemctl reload nginx
 ```

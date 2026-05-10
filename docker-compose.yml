@@ -10,6 +10,7 @@ services:
       - tabicat_postgres_data:/var/lib/postgresql/data
 
   web:
+    image: kaori8/travel-map:latest
     build: .
     restart: unless-stopped
     environment:
