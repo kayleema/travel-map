@@ -43,6 +43,7 @@ Install Docker and Docker Compose on your server. On Ubuntu/Debian:
 
 ```bash
 curl -fsSL https://get.docker.com | sh
+sudo apt install -y docker-compose
 ```
 
 ### Dedicated user
@@ -76,21 +77,27 @@ DATABASE_USER=travelmap
 DATABASE_PASS=<strong password>
 ```
 
-Generate a secret key with:
+Generate values for `SECRET_KEY` and `DATABASE_PASS` with:
 ```bash
+# SECRET_KEY
 python3 -c "import secrets; print(secrets.token_urlsafe(50))"
+
+# DATABASE_PASS (shorter is fine since it never leaves the server)
+python3 -c "import secrets; print(secrets.token_urlsafe(16))"
 ```
+
+Avoid passwords with special shell characters (`$`, `!`, `"`) as they can cause issues in `.env` files.
 
 Then start the app:
 
 ```bash
-docker compose up -d --build
+docker-compose up -d --build
 ```
 
 Create your admin account (one time only):
 
 ```bash
-docker compose exec web python manage.py createsuperuser
+docker-compose exec web python manage.py createsuperuser
 ```
 
 The app is now running on port 8000. Point your reverse proxy (nginx, Caddy, etc.) there.
@@ -99,7 +106,7 @@ The app is now running on port 8000. Point your reverse proxy (nginx, Caddy, etc
 
 ```bash
 git pull
-docker compose up -d --build
+docker-compose up -d --build
 ```
 
 Migrations run automatically on startup.
