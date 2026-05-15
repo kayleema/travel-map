@@ -88,12 +88,11 @@ python3 -c "import secrets; print(secrets.token_urlsafe(16))"
 
 Avoid passwords with special shell characters (`$`, `!`, `"`) as they can cause issues in `.env` files.
 
-**On your local machine,** build and push the image to Docker Hub:
+**On your local machine,** build and push the image to Docker Hub. Since the server is `linux/amd64` and you may be on Apple Silicon, use `buildx` to cross-compile:
 
 ```bash
 docker login
-docker-compose build
-docker-compose push
+docker buildx build --platform linux/amd64 -t kaori8/travel-map:latest --push .
 ```
 
 **On the server,** pull and start:
@@ -116,8 +115,7 @@ The app is now running on port 8000. Point your reverse proxy (nginx, Caddy, etc
 On your local machine, rebuild and push:
 
 ```bash
-docker-compose build
-docker-compose push
+docker buildx build --platform linux/amd64 -t kaori8/travel-map:latest --push .
 ```
 
 On the server:

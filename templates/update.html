@@ -40,6 +40,28 @@
         font-style: italic;
     }
 
+    .category-guide {
+        margin: 0 0 25px;
+        padding: 0;
+        text-align: left;
+        max-width: 620px;
+    }
+
+    .category-guide li {
+        display: block;
+        border: 1px solid #0004;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        padding: 10px;
+        background: #eee;
+        line-height: 1.35;
+    }
+
+    .category-guide strong {
+        display: block;
+        margin-bottom: 3px;
+    }
+
 
     .none {
         background: #aaa;
@@ -68,6 +90,14 @@
         {% if LANGUAGE_CODE == 'ja' %}{{ location }}{% endif %}
         {% if LANGUAGE_CODE == 'en' %}{{ location.name_en | title }}{% endif %}
     </h1>
+    <p>
+        {% get_current_language as LANGUAGE_CODE %}
+        {% if LANGUAGE_CODE == 'ja' %}
+            {% blocktranslate trimmed with prefecture=location %}Click a button to update the status for {{ prefecture }} prefecture.{% endblocktranslate %}
+        {% else %}
+            {% blocktranslate trimmed with prefecture=location.name_en|title %}Click a button to update the status for {{ prefecture }} prefecture.{% endblocktranslate %}
+        {% endif %}
+    </p>
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="status" value="none"/>
@@ -93,4 +123,27 @@
         <input type="hidden" name="status" value="passed through"/>
         <input type="submit" value="{% translate "Passed Through" %}" class="passed"/>
     </form>
+    <h2>{% translate "What do the categories mean?" %}</h2>
+    <ul class="category-guide">
+        <li>
+            <strong>{% translate "none" %}</strong>
+            {% blocktranslate trimmed %}Use this when the place is still waiting for its first travel memory.{% endblocktranslate %}
+        </li>
+        <li>
+            <strong>{% translate "Lived" %}</strong>
+            {% blocktranslate trimmed %}Places you called home for a while, even if it was only one chapter of life.{% endblocktranslate %}
+        </li>
+        <li>
+            <strong>{% translate "Stayed" %}</strong>
+            {% blocktranslate trimmed %}Places where you slept at least one night, from hotels to friends' couches.{% endblocktranslate %}
+        </li>
+        <li>
+            <strong>{% translate "Walked" %}</strong>
+            {% blocktranslate trimmed %}Places where your feet actually touched the ground and you spent a little time there.{% endblocktranslate %}
+        </li>
+        <li>
+            <strong>{% translate "Passed Through" %}</strong>
+            {% blocktranslate trimmed %}Places you traveled through without really stopping, like a train transfer or road trip crossing.{% endblocktranslate %}
+        </li>
+    </ul>
 </div>

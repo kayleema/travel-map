@@ -31,9 +31,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('', views.homepage, name="homepage"),
+    path('share/<str:share_token>', views.shared_map, name="shared_map"),
     path('update/<str:location_name>', views.update_location, name="update"),
     # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
 
     path('i18n/', include('django.conf.urls.i18n')),
+    path('health', views.health, name="health"),
 ]

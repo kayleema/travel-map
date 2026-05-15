@@ -3,80 +3,196 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: travel-map\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-12 16:14+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2026-05-15 09:45+0000\n"
+"PO-Revision-Date: 2026-05-15 00:00+0900\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-#: templates/account/base_entrance.html:137
-#: templates/travelregistration/homepage.html:249
+
+#: templates/account/base_entrance.html:133
+#: templates/travelregistration/homepage.html:417
 msgid "Select"
 msgstr "選択"
 
-#: templates/travelregistration/homepage.html:175
+#: templates/registration/login_old.html:3
+#: templates/registration/login_old.html:7
+#: templates/travelregistration/homepage.html:279
+#: templates/travelregistration/homepage.html:430
+msgid "Log In"
+msgstr "ログイン"
+
+#: templates/registration/logout_old.html:3
+#: templates/registration/logout_old.html:7
+#: templates/travelregistration/homepage.html:274
 msgid "Log Out"
 msgstr "ログアウト"
 
-#: templates/travelregistration/homepage.html:180
+#: templates/travelregistration/homepage.html:3
+#: templates/travelregistration/homepage.html:290
+#: templates/travelregistration/homepage.html:393
 msgid "Travel Map"
 msgstr "旅した都道府県の地図"
 
-#: templates/travelregistration/homepage.html:183
+#: templates/travelregistration/homepage.html:267
+msgid "tabby cat"
+msgstr "トラ猫"
+
+#: templates/travelregistration/homepage.html:278
+#: templates/travelregistration/homepage.html:428
+msgid "Sign Up"
+msgstr "登録"
+
+#: templates/travelregistration/homepage.html:288
+msgid "Shared Travel Map"
+msgstr "共有された旅の地図"
+
+#: templates/travelregistration/homepage.html:294
+#, python-format
+msgid "This is %(username)s's read-only shared map."
+msgstr "これは%(username)sさんの閲覧専用の共有地図です。"
+
+#: templates/travelregistration/homepage.html:296
+msgid "Click a prefecture on the map to update its status."
+msgstr "地図上の都道府県をクリックしてステータスを更新できます。"
+
+#: templates/travelregistration/homepage.html:300
+#: templates/travelregistration/homepage.html:348
 msgid "lived in"
 msgstr "在住"
 
-#: templates/travelregistration/homepage.html:184
+#: templates/travelregistration/homepage.html:301
+#: templates/travelregistration/homepage.html:352
 msgid "stayed overnight"
 msgstr "宿泊"
 
-#: templates/travelregistration/homepage.html:185
+#: templates/travelregistration/homepage.html:302
+#: templates/travelregistration/homepage.html:356
 msgid "walked in"
 msgstr "散歩"
 
-#: templates/travelregistration/homepage.html:186
+#: templates/travelregistration/homepage.html:303
+#: templates/travelregistration/homepage.html:360
 msgid "passed through"
 msgstr "通過"
 
-#: templates/travelregistration/homepage.html:253
+#: templates/travelregistration/homepage.html:345 templates/update.html:126
+msgid "What do the categories mean?"
+msgstr "カテゴリーの意味"
+
+#: templates/travelregistration/homepage.html:349 templates/update.html:134
+msgid ""
+"Places you called home for a while, even if it was only one chapter of life."
+msgstr ""
+"しばらく暮らして、自分の生活の拠点だった場所。人生の一章だけでもここに入りま"
+"す。"
+
+#: templates/travelregistration/homepage.html:353 templates/update.html:138
+msgid ""
+"Places where you slept at least one night, from hotels to friends' couches."
+msgstr "ホテルでも友だちの家でも、少なくとも一泊した場所。"
+
+#: templates/travelregistration/homepage.html:357 templates/update.html:142
+msgid ""
+"Places where your feet actually touched the ground and you spent a little "
+"time there."
+msgstr "実際にその土地を歩いて、少しでも時間を過ごした場所。"
+
+#: templates/travelregistration/homepage.html:361 templates/update.html:146
+msgid ""
+"Places you traveled through without really stopping, like a train transfer "
+"or road trip crossing."
+msgstr "電車の乗り換えや車での通過など、しっかり滞在せずに通り過ぎた場所。"
+
+#: templates/travelregistration/homepage.html:366
+msgid "Share your map"
+msgstr "地図を共有"
+
+#: templates/travelregistration/homepage.html:369
+msgid "Open shared map"
+msgstr "共有地図を開く"
+
+#: templates/travelregistration/homepage.html:376
+msgid "Details:"
+msgstr "詳細："
+
+#: templates/travelregistration/homepage.html:394
+msgid ""
+"Turn your travels into a bright little map: mark the places you have lived, "
+"where you stayed overnight, where you wandered on foot, and the places you "
+"only breezed through on the way to somewhere else."
+msgstr ""
+"旅の思い出を、カラフルな小さな地図にしましょう。住んだ場所、泊まった場所、歩"
+"いてめぐった場所、そして目的地へ向かう途中で通り過ぎた場所まで記録できます。"
+
+#: templates/travelregistration/homepage.html:395
+msgid ""
+"It is part diary, part scoreboard, and part gentle nudge to make your next "
+"ordinary trip feel like it belongs in the story too."
+msgstr ""
+"日記のようで、スコアボードのようで、次の何気ないお出かけも物語の一部にしたく"
+"なる、そんな旅の記録帳です。"
+
+#: templates/travelregistration/homepage.html:397
+msgid "Start your map"
+msgstr "地図をはじめる"
+
+#: templates/travelregistration/homepage.html:398
+msgid "Log in to your map"
+msgstr "自分の地図にログイン"
+
+#: templates/travelregistration/homepage.html:422
 msgid "Account Email"
 msgstr "メール管理"
 
-#: templates/travelregistration/homepage.html:255
+#: templates/travelregistration/homepage.html:424
 msgid "Account Password"
 msgstr "パスワード管理"
 
-#: templates/update.html:67
+#: templates/update.html:89
 msgid "Update Location"
 msgstr "地域更新"
 
-#: templates/update.html:74
+#: templates/update.html:96 templates/update.html:98
+#, python-format
+msgid "Click a button to update the status for %(prefecture)s prefecture."
+msgstr ""
+"%(prefecture)sのステータスを更新するには、ボタンをクリックしてください。"
+
+#: templates/update.html:104 templates/update.html:129
 msgid "none"
 msgstr "なし"
 
-#: templates/update.html:79 travelregistration/models.py:44
+#: templates/update.html:109 templates/update.html:133
+#: travelregistration/models.py:44
 msgid "Lived"
 msgstr "在住"
 
-#: templates/update.html:84 travelregistration/models.py:45
+#: templates/update.html:114 templates/update.html:137
+#: travelregistration/models.py:45
 msgid "Stayed"
 msgstr "宿泊"
 
-#: templates/update.html:89 travelregistration/models.py:46
+#: templates/update.html:119 templates/update.html:141
+#: travelregistration/models.py:46
 msgid "Walked"
 msgstr "散歩"
 
-#: templates/update.html:94 travelregistration/models.py:47
+#: templates/update.html:124 templates/update.html:145
+#: travelregistration/models.py:47
 msgid "Passed Through"
 msgstr "通過"
+
+#: templates/update.html:130
+msgid "Use this when the place is still waiting for its first travel memory."
+msgstr "まだ旅の思い出がない場所にはこれを選びます。"
 
 #: travelregistration/models.py:43
 msgid "None"

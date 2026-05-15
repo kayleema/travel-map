@@ -1,6 +1,8 @@
-<h2>Log In</h2>
+{% load i18n %}
+
+<h2>{% translate "Log In" %}</h2>
 <form method="post">
   {% csrf_token %}
   {{ form }}
-  <button type="submit">Log In</button>
+  <button type="submit">{% translate "Log In" %}</button>
 </form>

@@ -1,7 +1,9 @@
 {% load i18n %}
 {% load static %}
+<title>{% translate "Travel Map" %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}"/>
+{#<link rel="stylesheet" href="{% static 'style.css' %}">#}
 <style>
     body {
         font-family: Georgia, serif;
@@ -36,7 +38,7 @@
         margin: 0;
     }
 
-    .location a {
+    .location a, .location-label {
         color: white;
         text-decoration: none;
         width: 100%;
@@ -74,6 +76,57 @@
     .legend span {
         display: inline-block;
         margin: 2px;
+    }
+
+    .category-guide {
+        margin: 0 0 24px;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 10px;
+    }
+
+    .category-guide li {
+        display: block;
+        background: #eee;
+        border: 1px solid #0004;
+        border-radius: 8px;
+        padding: 12px;
+        line-height: 1.35;
+    }
+
+    .category-guide strong {
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .share-panel {
+        background: #eee;
+        border: 1px solid #0004;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 24px;
+    }
+
+    .share-panel label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .share-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .share-row input {
+        flex: 1;
+        min-width: 180px;
+        border: 1px solid #0008;
+        border-radius: 5px;
+        padding: 6px;
+        box-sizing: border-box;
     }
 
     span.location {
@@ -119,7 +172,7 @@
         background: #2aa;
     }
 
-    .location a {
+    .location a, .location-label {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -130,7 +183,8 @@
         border-ra
     }
 
-    .lived a, .stayed a, .walked a, .passed a {
+    .lived a, .stayed a, .walked a, .passed a,
+    .lived .location-label, .stayed .location-label, .walked .location-label, .passed .location-label {
         color: white;
     }
 
@@ -168,74 +222,184 @@
     button:hover, input[type=submit]:hover, select:hover {
         background: #555;
     }
+
+    .nav-links {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .button-link {
+        background: #444;
+        color: white;
+        border-radius: 5px;
+        padding: 7px 12px;
+        line-height: 1;
+    }
+
+    .button-link:hover {
+        background: #555;
+        text-decoration: none;
+    }
+
+    .intro {
+        min-height: 55vh;
+    }
+
+    .intro p {
+        font-size: 20px;
+        line-height: 1.5;
+        max-width: 760px;
+    }
+
+    .intro-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .intro-actions a {
+        font-size: 18px;
+    }
 </style>
 
 <nav class="card">
-    <img src="/static/favicon.png" alt="tabby cat"/>
+    <img src="/static/favicon.png" alt="{% translate "tabby cat" %}"/>
 
     <strong><em>tabicat.kaylee.jp</em></strong>
 
-    <form action="{% url 'account_logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">{% translate "Log Out" %}</button>
-    </form>
+    {% if user.is_authenticated %}
+        <form action="{% url 'account_logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">{% translate "Log Out" %}</button>
+        </form>
+    {% else %}
+        <div class="nav-links">
+            <a class="button-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
+            <a class="button-link" href="{% url 'account_login' %}">{% translate "Log In" %}</a>
+        </div>
+    {% endif %}
 </nav>
 
-<div class="card">
-    <h1>{% translate "Travel Map" %}</h1>
-    <div class="mapcontainer">
-        <div class="legend">
-            <span class="lived location">{% translate "lived in" %}</span>
-            <span class="stayed location">{% translate "stayed overnight" %}</span>
-            <span class="walked location">{% translate "walked in" %}</span>
-            <span class="passed location">{% translate "passed through" %}</span>
+{% if user.is_authenticated or shared_map %}
+    <div class="card">
+        <h1>
+            {% if shared_map %}
+                {% translate "Shared Travel Map" %}
+            {% else %}
+                {% translate "Travel Map" %}
+            {% endif %}
+        </h1>
+        {% if shared_map %}
+            <p>{% blocktranslate trimmed with username=share_owner.username %}This is {{ username }}'s read-only shared map.{% endblocktranslate %}</p>
+        {% else %}
+            <p>{% translate "Click a prefecture on the map to update its status." %}</p>
+        {% endif %}
+        <div class="mapcontainer">
+            <div class="legend">
+                <span class="lived location">{% translate "lived in" %}</span>
+                <span class="stayed location">{% translate "stayed overnight" %}</span>
+                <span class="walked location">{% translate "walked in" %}</span>
+                <span class="passed location">{% translate "passed through" %}</span>
+            </div>
+            <div class="map">
+                {% for location in locations %}
+                    <div
+                            style="
+                                    grid-column: {{ location.location.display_x }};
+                                    grid-row: {{ location.location.display_y }};
+                                    grid-column-end: {{ location.location.get_display_x_end }};
+                                    grid-row-end: {{ location.location.get_display_y_end }};
+                                    {% if location.location.border_radius_top_left %}
+                                        border-top-left-radius: 15px;
+                                    {% endif %}
+                                    {% if location.location.border_radius_bottom_left %}
+                                        border-bottom-left-radius: 15px;
+                                    {% endif %}
+                                    {% if location.location.border_radius_top_right %}
+                                        border-top-right-radius: 15px;
+                                    {% endif %}
+                                    {% if location.location.border_radius_bottom_right %}
+                                        border-bottom-right-radius: 15px;
+                                    {% endif %}
+                                    "
+                            class="{{ location.status }} location"
+                    >
+                        {% if shared_map %}
+                            <span class="location-label">
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% if LANGUAGE_CODE == 'ja' %}{{ location.location.name }}{% endif %}
+                                {% if LANGUAGE_CODE == 'en' %}{{ location.location.name_en | title }}{% endif %}
+                            </span>
+                        {% else %}
+                            <a href="/update/{{ location.location.name }}">
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% if LANGUAGE_CODE == 'ja' %}{{ location.location.name }}{% endif %}
+                                {% if LANGUAGE_CODE == 'en' %}{{ location.location.name_en | title }}{% endif %}
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-        <div class="map">
-            {% for location in locations %}
-                <div
-                        style="
-                                grid-column: {{ location.location.display_x }};
-                                grid-row: {{ location.location.display_y }};
-                                grid-column-end: {{ location.location.get_display_x_end }};
-                                grid-row-end: {{ location.location.get_display_y_end }};
-                                {% if location.location.border_radius_top_left %}
-                                    border-top-left-radius: 15px;
-                                {% endif %}
-                                {% if location.location.border_radius_bottom_left %}
-                                    border-bottom-left-radius: 15px;
-                                {% endif %}
-                                {% if location.location.border_radius_top_right %}
-                                    border-top-right-radius: 15px;
-                                {% endif %}
-                                {% if location.location.border_radius_bottom_right %}
-                                    border-bottom-right-radius: 15px;
-                                {% endif %}
-                                "
-                        class="{{ location.status }} location"
-                >
-                    <a href="/update/{{ location.location.name }}">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% if LANGUAGE_CODE == 'ja' %}{{ location.location.name }}{% endif %}
-                        {% if LANGUAGE_CODE == 'en' %}{{ location.location.name_en | title }}{% endif %}
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
-
-<div class="card" style="display: none;">
-    <h2>Details:</h2>
-    <ul>
-        {% for location in locations %}
+        <h2>{% translate "What do the categories mean?" %}</h2>
+        <ul class="category-guide">
             <li>
-                <a href="/update/{{ location.location.name }}">
-                    {{ location.location }} {{ location.status }}
-                </a>
+                <strong>{% translate "lived in" %}</strong>
+                {% blocktranslate trimmed %}Places you called home for a while, even if it was only one chapter of life.{% endblocktranslate %}
             </li>
-        {% endfor %}
-    </ul>
-</div>
+            <li>
+                <strong>{% translate "stayed overnight" %}</strong>
+                {% blocktranslate trimmed %}Places where you slept at least one night, from hotels to friends' couches.{% endblocktranslate %}
+            </li>
+            <li>
+                <strong>{% translate "walked in" %}</strong>
+                {% blocktranslate trimmed %}Places where your feet actually touched the ground and you spent a little time there.{% endblocktranslate %}
+            </li>
+            <li>
+                <strong>{% translate "passed through" %}</strong>
+                {% blocktranslate trimmed %}Places you traveled through without really stopping, like a train transfer or road trip crossing.{% endblocktranslate %}
+            </li>
+        </ul>
+        {% if share_url %}
+            <div class="share-panel">
+                <label for="share-link">{% translate "Share your map" %}</label>
+                <div class="share-row">
+                    <input id="share-link" type="text" readonly value="{{ share_url }}">
+                    <a class="button-link" href="{{ share_url }}">{% translate "Open shared map" %}</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="card" style="display: none;">
+        <h2>{% translate "Details:" %}</h2>
+        <ul>
+            {% for location in locations %}
+                <li>
+                    {% if shared_map %}
+                        {{ location.location }} {{ location.status }}
+                    {% else %}
+                        <a href="/update/{{ location.location.name }}">
+                            {{ location.location }} {{ location.status }}
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <main class="card intro">
+        <h1>{% translate "Travel Map" %}</h1>
+        <p>{% blocktranslate trimmed %}Turn your travels into a bright little map: mark the places you have lived, where you stayed overnight, where you wandered on foot, and the places you only breezed through on the way to somewhere else.{% endblocktranslate %}</p>
+        <p>{% blocktranslate trimmed %}It is part diary, part scoreboard, and part gentle nudge to make your next ordinary trip feel like it belongs in the story too.{% endblocktranslate %}</p>
+        <div class="intro-actions">
+            <a class="button-link" href="{% url 'account_signup' %}">{% translate "Start your map" %}</a>
+            <a class="button-link" href="{% url 'account_login' %}">{% translate "Log in to your map" %}</a>
+        </div>
+    </main>
+{% endif %}
 
 
 <footer class="card">
@@ -254,10 +418,18 @@
         <input type="submit" value="{% translate "Select" %}">
     </form>
 
-    <div>
-        <a href="{% url 'account_email' %}">{% translate "Account Email" %}</a>
-        ・
-        <a href="{% url 'account_change_password' %}">{% translate "Account Password" %}</a>
-    </div>
+    {% if user.is_authenticated %}
+        <div>
+            <a href="{% url 'account_email' %}">{% translate "Account Email" %}</a>
+            ・
+            <a href="{% url 'account_change_password' %}">{% translate "Account Password" %}</a>
+        </div>
+    {% else %}
+        <div>
+            <a href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
+            ・
+            <a href="{% url 'account_login' %}">{% translate "Log In" %}</a>
+        </div>
+    {% endif %}
 
 </footer>

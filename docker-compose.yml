@@ -12,6 +12,7 @@ services:
   web:
     image: kaori8/travel-map:latest
     build: .
+    platform: linux/amd64
     restart: unless-stopped
     environment:
       DJANGO_SETTINGS_MODULE: travelmap.settings_prod
