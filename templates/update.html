@@ -1,15 +1,9 @@
-{% load theme_tags %}
-{% load static %}
+{% extends "travelregistration/base.html" %}
 {% load i18n %}
 
-{% get_current_language as LANGUAGE_CODE %}
-{% get_current_theme as THEME %}
+{% block title %}{% translate "Update Location" %}{% endblock %}
 
-<html data-theme="{{ THEME }}" lang="{{ LANGUAGE_CODE }}">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="{% static 'style.css' %}">
-
+{% block extra_head %}
 <style>
     main {
         max-width: 620px;
@@ -74,7 +68,9 @@
         }
     }
 </style>
+{% endblock %}
 
+{% block content %}
 <main><article>
     <a href="/">← 戻る</a>
     <h1>
@@ -139,3 +135,4 @@
         </li>
     </ul>
 </article></main>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% load i18n %}
+
+<header>
+    <nav style="padding: 5px;">
+            <img src="/static/favicon.png" alt="{% translate "tabby cat" %}" style="image-rendering: pixelated; "/>
+
+            <a href="/" style="color: var(--color-text)">
+                <strong>tabicat.kaylee.jp</strong>
+            </a>
+
+        {% if user.is_authenticated %}
+            <form action="{% url 'account_logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">{% translate "Log Out" %}</button>
+            </form>
+        {% else %}
+            <ul>
+                <li><a class="buttonLink" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a></li>
+                <li><a class="buttonLink" href="{% url 'account_login' %}">{% translate "Log In" %}</a></li>
+            </ul>
+        {% endif %}
+    </nav>
+</header>
