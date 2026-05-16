@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.forms import ModelForm
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
 from django.urls import reverse
@@ -133,3 +133,9 @@ def update_location(request, location_name):
         "location": existing.location,
         "locationentry": existing,
     })
+
+def update_theme(request):
+    theme = request.POST.get('theme', 'light')
+    response = HttpResponseRedirect(request.POST.get('next', '/'))
+    response.set_cookie('theme', theme, max_age=60*60*24*365)
+    return response

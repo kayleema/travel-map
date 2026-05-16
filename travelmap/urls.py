@@ -38,4 +38,5 @@ urlpatterns = [
 
     path('i18n/', include('django.conf.urls.i18n')),
     path('health', views.health, name="health"),
+    path('theme', views.update_theme, name="theme")
 ]
