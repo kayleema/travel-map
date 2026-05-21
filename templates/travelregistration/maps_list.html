@@ -1,0 +1,53 @@
+{% extends "travelregistration/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}tabicat{% endblock %}
+
+{% block meta %}
+{% blocktranslate asvar page_description trimmed %}Turn your travels into a bright little map: mark the places you have lived, where you stayed overnight, where you wandered on foot, and the places you only breezed through on the way to somewhere else.{% endblocktranslate %}
+{% blocktranslate asvar og_title trimmed %}tabicat — Track your travels{% endblocktranslate %}
+<meta name="description" content="{{ page_description }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tabicat">
+<meta property="og:locale" content="{% if LANGUAGE_CODE == 'ja' %}ja_JP{% else %}en_US{% endif %}">
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:title" content="{{ og_title }}">
+<meta property="og:description" content="{{ page_description }}">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'banner2.png' %}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ og_title }}">
+<meta name="twitter:description" content="{{ page_description }}">
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'banner2.png' %}">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <article>
+        <h1>{% translate "Travel Map" %}</h1>
+        {% if not user.is_authenticated %}
+            <p>{% blocktranslate trimmed %}Turn your travels into a bright little map: mark the places you have lived, where you stayed overnight, where you wandered on foot, and the places you only breezed through on the way to somewhere else.{% endblocktranslate %}</p>
+            <p>{% blocktranslate trimmed %}It is part diary, part scoreboard, and part gentle nudge to make your next ordinary trip feel like it belongs in the story too.{% endblocktranslate %}</p>
+        {% endif %}
+        <ul class="maps-list">
+            {% for item in maps %}
+                <li>
+                    <a href="{% url 'map_detail' item.map.slug %}">
+                        {% if LANGUAGE_CODE == 'ja' %}{{ item.map.name }}{% else %}{{ item.map.name_en }}{% endif %}
+                    </a>
+                    {% if user.is_authenticated %}
+                        <span class="map-progress">{{ item.visited }}/{{ item.total }}</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        {% if not user.is_authenticated %}
+            <p class="introActions">
+                <a class="buttonLink" href="{% url 'account_signup' %}">{% translate "Start your map" %}</a>
+                <a class="buttonLink" href="{% url 'account_login' %}">{% translate "Log in to your map" %}</a>
+            </p>
+        {% endif %}
+    </article>
+</main>
+{% endblock %}

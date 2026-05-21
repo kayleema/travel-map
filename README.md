@@ -98,8 +98,7 @@ docker buildx build --platform linux/amd64 -t kaori8/travel-map:latest --push .
 **On the server,** pull and start:
 
 ```bash
-docker-compose pull
-docker-compose up -d
+docker compose pull && docker compose up -d
 ```
 
 Create your admin account (one time only):

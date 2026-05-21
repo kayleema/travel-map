@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-from travelregistration.models import Location, LocationEntry, Region
+from travelregistration.models import Location, LocationEntry, Map, Region
 
 
 def create_user(username="traveler", password="password"):
@@ -11,8 +11,13 @@ def create_user(username="traveler", password="password"):
     )
 
 
-def create_region(name="Test Region", color="#abc"):
-    return Region.objects.create(name=name, color=color)
+def create_map(name="テスト", name_en="Test Map", slug="test-map"):
+    obj, _ = Map.objects.get_or_create(slug=slug, defaults={"name": name, "name_en": name_en})
+    return obj
+
+
+def create_region(name="Test Region", color="#abc", map=None):
+    return Region.objects.create(name=name, color=color, map=map or create_map())
 
 
 def create_location(

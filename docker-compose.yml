@@ -8,9 +8,14 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASS}
     volumes:
       - tabicat_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d travelregistration"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   web:
-    image: kaori8/travel-map:latest
+    image: kaori8/travel-map:latest # replace with your own image name
     build: .
     platform: linux/amd64
     restart: unless-stopped
@@ -23,7 +28,8 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 volumes:
   tabicat_postgres_data:

@@ -1,0 +1,42 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}Generate share link — {{ map.name_en }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_label|capfirst }}</a>
+    &rsaquo; <a href="{% url 'admin:travelregistration_map_changelist' %}">Maps</a>
+    &rsaquo; Generate share link — {{ map.name_en }}
+</div>
+{% endblock %}
+
+{% block content %}
+{#<h1>Generate share link — {{ map.name_en }}</h1>#}
+
+<form method="post">
+    {% csrf_token %}
+    <fieldset class="module aligned">
+        {% for field in form %}
+            <div class="form-row{% if field.errors %} errors{% endif %}">
+                {{ field.errors }}
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
+    </fieldset>
+    <div class="submit-row">
+        <input type="submit" value="Generate" class="default">
+        <a href="{% url 'admin:travelregistration_map_changelist' %}">Cancel</a>
+    </div>
+</form>
+
+{% if share_url %}
+<fieldset class="module aligned" style="margin-top: 1em;">
+    <h2>Share URL</h2>
+    <div class="form-row">
+        <input type="text" readonly value="{{ share_url }}" style="width: 100%; font-family: monospace;">
+    </div>
+</fieldset>
+{% endif %}
+{% endblock %}

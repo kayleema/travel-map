@@ -39,7 +39,7 @@ msgstr "ログアウト"
 #: templates/travelregistration/homepage.html:290
 #: templates/travelregistration/homepage.html:393
 msgid "Travel Map"
-msgstr "旅した都道府県の地図"
+msgstr "旅の地図"
 
 #: templates/travelregistration/homepage.html:267
 msgid "tabby cat"
@@ -60,8 +60,8 @@ msgid "This is %(username)s's read-only shared map."
 msgstr "これは%(username)sさんの閲覧専用の共有地図です。"
 
 #: templates/travelregistration/homepage.html:296
-msgid "Click a prefecture on the map to update its status."
-msgstr "地図上の都道府県をクリックしてステータスを更新できます。"
+msgid "Click a location on the map to update its status."
+msgstr "地図上の場所をクリックしてステータスを更新できます。"
 
 #: templates/travelregistration/homepage.html:300
 #: templates/travelregistration/homepage.html:348
@@ -115,6 +115,14 @@ msgstr "電車の乗り換えや車での通過など、しっかり滞在せず
 msgid "Share your map"
 msgstr "地図を共有"
 
+#: templates/travelregistration/map_detail.html
+msgid "Copy"
+msgstr "コピー"
+
+#: templates/travelregistration/map_detail.html
+msgid "Copied!"
+msgstr "コピーしました！"
+
 #: templates/travelregistration/homepage.html:369
 msgid "Open shared map"
 msgstr "共有地図を開く"
@@ -141,6 +149,9 @@ msgstr ""
 "なる、そんな旅の記録帳です。"
 
 #: templates/travelregistration/homepage.html:397
+msgid "All maps"
+msgstr "地図一覧"
+
 msgid "Start your map"
 msgstr "地図をはじめる"
 
@@ -162,9 +173,9 @@ msgstr "地域更新"
 
 #: templates/update.html:96 templates/update.html:98
 #, python-format
-msgid "Click a button to update the status for %(prefecture)s prefecture."
+msgid "Click a button to update the status for %(location_name)s."
 msgstr ""
-"%(prefecture)sのステータスを更新するには、ボタンをクリックしてください。"
+"%(location_name)sのステータスを更新するには、ボタンをクリックしてください。"
 
 #: templates/update.html:104 templates/update.html:129
 msgid "none"
@@ -189,6 +200,38 @@ msgstr "散歩"
 #: travelregistration/models.py:47
 msgid "Passed Through"
 msgstr "通過"
+
+#: templates/travelregistration/base.html
+msgid "Track the places you have lived, stayed, walked, and passed through — tabicat."
+msgstr "住んだ場所、泊まった場所、歩いた場所、通り過ぎた場所の記録 — tabicat"
+
+#: templates/travelregistration/base.html
+msgid "Track the places you have lived, stayed, walked, and passed through."
+msgstr "住んだ場所、泊まった場所、歩いた場所、通り過ぎた場所の記録"
+
+#: templates/travelregistration/maps_list.html
+msgid "tabicat — Track your travels"
+msgstr "tabicat — 旅の記録"
+
+#: templates/travelregistration/map_detail.html
+#, python-format
+msgid "%(map_name)s — tabicat"
+msgstr "%(map_name)s — tabicat"
+
+#: templates/travelregistration/map_detail.html
+#, python-format
+msgid "%(username)s's %(map_name)s — tabicat"
+msgstr "%(username)sさんの%(map_name)s — tabicat"
+
+#: templates/travelregistration/map_detail.html
+#, python-format
+msgid "Track your travels across %(map_name)s on tabicat."
+msgstr "tabicat で%(map_name)sの旅を記録しよう。"
+
+#: templates/travelregistration/map_detail.html
+#, python-format
+msgid "%(username)s has visited %(count)s of %(total)s locations on %(map_name)s."
+msgstr "%(username)sさんは%(map_name)sの%(total)sか所のうち%(count)sか所を旅しました。"
 
 #: templates/update.html:130
 msgid "Use this when the place is still waiting for its first travel memory."

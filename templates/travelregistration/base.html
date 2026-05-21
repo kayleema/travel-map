@@ -7,9 +7,28 @@
 
 <html data-theme="{{ THEME }}" lang="{{ LANGUAGE_CODE }}">
 
+<meta charset="UTF-8">
 <title>{% block title %}{% translate "Travel Map" %}{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block meta %}
+<meta name="description" content="{% translate "Track the places you have lived, stayed, walked, and passed through — tabicat." %}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tabicat">
+<meta property="og:locale" content="{% if LANGUAGE_CODE == 'ja' %}ja_JP{% else %}en_US{% endif %}">
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:title" content="tabicat">
+<meta property="og:description" content="{% translate "Track the places you have lived, stayed, walked, and passed through." %}">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'banner2.png' %}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tabicat">
+<meta name="twitter:description" content="{% translate "Track the places you have lived, stayed, walked, and passed through." %}">
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'banner2.png' %}">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+{% endblock %}
+<meta name="theme-color" content="{% if THEME == 'dark' or THEME == 'hacker' %}#222{% elif THEME == 'parchment' %}#f5ede0{% elif THEME == 'sakura' %}#ffe4ef{% elif THEME == 'neon' %}#0d0020{% else %}#f4f4f4{% endif %}">
 <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}"/>
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+<link rel="manifest" href="{% static 'site.webmanifest' %}">
 <link rel="stylesheet" href="{% static 'style.css' %}">
 <link rel="stylesheet" href="{% static 'tabicat.css' %}">
 {% block extra_head %}{% endblock %}

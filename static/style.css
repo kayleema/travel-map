@@ -19,6 +19,7 @@
     --bg-secondary: #e0e0e0;
     --border-secondary: #d0d0d8;
     --border-primary: #b0b0bc;
+    --border-strong: #7b7b85;
     --medium-gray: #444;
     --color-text: #111111;
     --color-text-button: #222;
@@ -79,6 +80,7 @@
         --bg-secondary: #333;
         --border-secondary: #444;
         --border-primary: #555;
+        --border-strong: #9999a6;
         --medium-gray: #999;
         --color-text: #eee;
         --color-text-button: #eee;
@@ -114,6 +116,7 @@
     --bg-secondary: #ede3cf;
     --border-secondary: #d4c4a0;
     --border-primary: #b8a070;
+    --border-strong: #73603e;
     --medium-gray: #7a6050;
     --color-text: #3d2b1f;
     --color-text-button: #4a3628;
@@ -149,6 +152,7 @@
     --bg-secondary: #ffd0e4;
     --border-secondary: #ffb3cc;
     --border-primary: #ff80aa;
+    --border-strong: #8f1042;
     --medium-gray: #b6164d;
     --color-text: #5c0028;
     --color-text-button: #7a0033;
@@ -184,6 +188,7 @@
     --bg-secondary: #220045;
     --border-secondary: #44006a;
     --border-primary: #7700bb;
+    --border-strong: #a52eec;
     --medium-gray: #bb88dd;
     --color-text: #eed8ff;
     --color-text-button: #ffccff;
@@ -208,7 +213,7 @@
     --spectral-bg-1: #e80089;
     --spectral-bg-2: #007aa3;
     --spectral-bg-3: #8517c3;
-    --spectral-bg-4: #857a20;
+    --spectral-bg-4: rgb(140, 134, 147);
     --spectral-fg: #fff;
 }
 
@@ -234,6 +239,7 @@
     --bg-secondary: #133;
     --border-secondary: #252;
     --border-primary: #272;
+    --border-strong: #199719;
     --medium-gray: #3c3;
     --color-text: #0f0;
     --color-text-button: #dd0;
@@ -255,10 +261,10 @@
     --bevel-dark: #0f03;
     --font-theme: "M PLUS 1 Code", monospace;
 
-    --spectral-bg-1: #ff0;
-    --spectral-bg-2: #0f0;
-    --spectral-bg-3: #f0f;
-    --spectral-bg-4: #0ff;
+    --spectral-bg-1: #ff4747;
+    --spectral-bg-2: #e4d200;
+    --spectral-bg-3: #00b314;
+    --spectral-bg-4: #00c0da;
     --spectral-fg: #000;
 }
 
@@ -269,6 +275,7 @@
     --bg-secondary: #333;
     --border-secondary: #444;
     --border-primary: #555;
+    --border-strong: #bdbdbd;
     --medium-gray: #999;
     --color-text: #eee;
     --color-text-button: #eee;

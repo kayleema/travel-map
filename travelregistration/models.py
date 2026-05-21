@@ -3,7 +3,23 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+class Map(models.Model):
+    name = models.CharField(max_length=100)
+    name_en = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+    order = models.IntegerField(default=0)
+
+    indexes = [models.Index(fields=['order'])]
+
+    def __str__(self):
+        return self.name_en
+
+    class Meta:
+        # Ascending order (Oldest first)
+        ordering = ['order']
+
 class Region(models.Model):
+    map = models.ForeignKey(Map, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=10)
 

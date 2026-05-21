@@ -40,6 +40,9 @@
 
     {% if user.is_authenticated %}
         <ul>
+            {% if user.is_staff %}
+                <li><a href="{% url 'admin:index' %}">管理者</a></li>
+            {% endif %}
             <li><a href="{% url 'account_email' %}">{% translate "Account Email" %}</a></li>
             <li><a href="{% url 'account_change_password' %}">{% translate "Account Password" %}</a></li>
         </ul>

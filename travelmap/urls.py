@@ -30,9 +30,10 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('', views.homepage, name="homepage"),
+    path('', views.maps_list, name="maps_list"),
     path('share/<str:share_token>', views.shared_map, name="shared_map"),
-    path('update/<str:location_name>', views.update_location, name="update"),
+    path('<slug:map_slug>/update/<str:location_name>', views.update_location, name="update"),
+    path('<slug:map_slug>/', views.map_detail, name="map_detail"),
     # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
 

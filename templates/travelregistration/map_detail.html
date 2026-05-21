@@ -1,33 +1,58 @@
 {% extends "travelregistration/base.html" %}
 {% load i18n %}
+{% load static %}
+
+{% block title %}{% if shared_map %}{{ share_owner.username }}'s {% endif %}{% if LANGUAGE_CODE == 'ja' %}{{ map.name }}{% else %}{{ map.name_en }}{% endif %} — tabicat{% endblock %}
+
+{% block meta %}
+{% if shared_map %}
+{% blocktranslate asvar og_title trimmed with username=share_owner.username map_name=map_name_localized %}{{ username }}'s {{ map_name }} — tabicat{% endblocktranslate %}
+{% blocktranslate asvar og_description trimmed with username=share_owner.username count=visited_count total=total_count map_name=map_name_localized %}{{ username }} has visited {{ count }} of {{ total }} locations on {{ map_name }}.{% endblocktranslate %}
+{% else %}
+{% blocktranslate asvar og_title trimmed with map_name=map_name_localized %}{{ map_name }} — tabicat{% endblocktranslate %}
+{% blocktranslate asvar og_description trimmed with map_name=map_name_localized %}Track your travels across {{ map_name }} on tabicat.{% endblocktranslate %}
+{% endif %}
+<meta name="description" content="{{ og_description }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tabicat">
+<meta property="og:locale" content="{% if LANGUAGE_CODE == 'ja' %}ja_JP{% else %}en_US{% endif %}">
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:title" content="{{ og_title }}">
+<meta property="og:description" content="{{ og_description }}">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'banner2.png' %}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ og_title }}">
+<meta name="twitter:description" content="{{ og_description }}">
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'banner2.png' %}">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+{% endblock %}
 
 {% block extra_head %}
+{% if max_x %}
 <style>
     .map{
         grid-template-columns: repeat({{ max_x }}, minmax(10px, 1fr));
         grid-template-rows: repeat({{ max_y }}, 1fr);
     }
     :lang(en) .map {
-        grid-template-columns: repeat({{ max_x }}, minmax(65px, 1fr));
+        grid-template-columns: repeat({{ max_x }}, minmax(70px, 1fr));
     }
 </style>
+{% endif %}
 {% endblock %}
 
 {% block content %}
 <main>
 {% if user.is_authenticated or shared_map %}
     <article>
+        <a href="{% url 'maps_list' %}">← {% translate "All maps" %}</a>
         <h1>
-            {% if shared_map %}
-                {% translate "Shared Travel Map" %}
-            {% else %}
-                {% translate "Travel Map" %}
-            {% endif %}
+            {% if shared_map %}{% translate "Shared Travel Map" %}: {% endif %}{% if LANGUAGE_CODE == 'ja' %}{{ map.name }}{% else %}{{ map.name_en }}{% endif %}
         </h1>
         {% if shared_map %}
             <p>{% blocktranslate trimmed with username=share_owner.username %}This is {{ username }}'s read-only shared map.{% endblocktranslate %}</p>
         {% else %}
-            <p>{% translate "Click a prefecture on the map to update its status." %}</p>
+            <p>{% translate "Click a location on the map to update its status." %}</p>
         {% endif %}
         <div class="legend">
             <span class="lived location">{% translate "lived in" %}</span>
@@ -60,16 +85,16 @@
                             class="{{ location.status }} location"
                     >
                         {% if shared_map %}
-                            <span class="location-label">
+                            <span class="locationLabel">
                                 {% get_current_language as LANGUAGE_CODE %}
                                 {% if LANGUAGE_CODE == 'ja' %}{{ location.location.name }}{% endif %}
-                                {% if LANGUAGE_CODE == 'en' %}{{ location.location.name_en | title }}{% endif %}
+                                {% if LANGUAGE_CODE == 'en' %}{{ location.location.name_en }}{% endif %}
                             </span>
                         {% else %}
-                            <a href="/update/{{ location.location.name }}">
+                            <a href="{% url 'update' map_slug location.location.name %}">
                                 {% get_current_language as LANGUAGE_CODE %}
                                 {% if LANGUAGE_CODE == 'ja' %}{{ location.location.name }}{% endif %}
-                                {% if LANGUAGE_CODE == 'en' %}{{ location.location.name_en | title }}{% endif %}
+                                {% if LANGUAGE_CODE == 'en' %}{{ location.location.name_en }}{% endif %}
                             </a>
                         {% endif %}
                     </div>
@@ -101,9 +126,19 @@
                 <label for="share-link">{% translate "Share your map" %}</label>
                 <div role="group">
                     <input id="share-link" type="text" readonly value="{{ share_url }}">
+                    <button type="button" id="copy-share-link" data-copied="{% translate 'Copied!' %}">{% translate "Copy" %}</button>
                     <a class="buttonLink" href="{{ share_url }}">{% translate "Open shared map" %}</a>
                 </div>
             </article>
+            <script>
+                document.getElementById('copy-share-link').addEventListener('click', function () {
+                    navigator.clipboard.writeText(document.getElementById('share-link').value).then(() => {
+                        const orig = this.textContent;
+                        this.textContent = this.dataset.copied;
+                        setTimeout(() => this.textContent = orig, 2000);
+                    });
+                });
+            </script>
         {% endif %}
 
         <div style="display: none;">
@@ -115,7 +150,7 @@
                         {% if shared_map %}
                             {{ location.location }} {{ location.status }}
                         {% else %}
-                            <a href="/update/{{ location.location.name }}">
+                            <a href="{% url 'update' map_slug location.location.name %}">
                                 {{ location.location }} {{ location.status }}
                             </a>
                         {% endif %}
@@ -127,9 +162,7 @@
 
 {% else %}
     <article>
-        <h1>{% translate "Travel Map" %}</h1>
-        <p>{% blocktranslate trimmed %}Turn your travels into a bright little map: mark the places you have lived, where you stayed overnight, where you wandered on foot, and the places you only breezed through on the way to somewhere else.{% endblocktranslate %}</p>
-        <p>{% blocktranslate trimmed %}It is part diary, part scoreboard, and part gentle nudge to make your next ordinary trip feel like it belongs in the story too.{% endblocktranslate %}</p>
+        <h1>{{ map.name_en }}</h1>
         <p class="introActions">
             <a class="buttonLink" href="{% url 'account_signup' %}">{% translate "Start your map" %}</a>
             <a class="buttonLink" href="{% url 'account_login' %}">{% translate "Log in to your map" %}</a>

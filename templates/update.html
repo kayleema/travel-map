@@ -16,11 +16,11 @@
         align-items: center;
     }
 
-    input, select, label {
+    main input, main label {
         font-size: 1.5rem;
     }
 
-    input[type=submit] {
+    main input[type=submit] {
         border-radius: 10px;
         padding: 5px;
         width: 170px;
@@ -36,7 +36,7 @@
         }
     }
 
-    input.secondary, input.secondary:hover {
+    main input.secondary, main input.secondary:hover {
         &[type=submit] {
             color: white;
         }
@@ -72,7 +72,7 @@
 
 {% block content %}
 <main><article>
-    <a href="/">← 戻る</a>
+    <a href="{% url 'map_detail' map_slug %}">← 戻る</a>
     <h1>
         {% translate "Update Location" %}：
         {% if LANGUAGE_CODE == 'ja' %}{{ location }}{% endif %}
@@ -106,9 +106,9 @@
     <p>
         {% get_current_language as LANGUAGE_CODE %}
         {% if LANGUAGE_CODE == 'ja' %}
-            {% blocktranslate trimmed with prefecture=location %}Click a button to update the status for {{ prefecture }} prefecture.{% endblocktranslate %}
+            {% blocktranslate trimmed with location_name=location %}Click a button to update the status for {{ location_name }}.{% endblocktranslate %}
         {% else %}
-            {% blocktranslate trimmed with prefecture=location.name_en|title %}Click a button to update the status for {{ prefecture }} prefecture.{% endblocktranslate %}
+            {% blocktranslate trimmed with location_name=location.name_en|title %}Click a button to update the status for {{ location_name }}.{% endblocktranslate %}
         {% endif %}
     </p>
     <h2>{% translate "What do the categories mean?" %}</h2>
